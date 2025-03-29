@@ -1,0 +1,46 @@
+version: "3.9"
+services:
+
+  setting-service:
+    image: qr/setting-service:0.0.1-SNAPSHOT
+    environment:
+      - GIT_USER=${GIT_USER}
+      - GIT_PASSWORD=${GIT_PASSWORD}
+      - ENCRYPT_KEY=${ENCRYPT_KEY}
+    ports:
+      - "8001:8001"
+    networks:
+      - single-service-network
+    restart: always
+
+  eureka:
+    image: qr/eureka-server:0.0.1-SNAPSHOT
+    environment:
+      - ACTIVE_PROFILE=${PROFILE}
+      - CONFIG_SERVER=${CONFIG_SERVER}
+    depends_on:
+      - setting-service
+    restart: always
+    ports:
+      - "8761:8761"
+    networks:
+      - single-service-network
+
+  gateway:
+    image: qr/gatewey-service:0.0.1-SNAPSHOT
+    environment:
+      - ACTIVE_PROFILE=${PROFILE}
+      - CONFIG_SERVER=${CONFIG_SERVER}
+    depends_on:
+      - setting-service
+      - eureka
+    restart: always
+    ports:
+      - "8010:8010"
+    networks:
+      - single-service-network
+
+networks:
+  single-service-network:
+    name: single-service-network
+    driver: bridge

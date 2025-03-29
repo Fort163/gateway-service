@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  redis-insight:
+    image: redis/redisinsight:latest
+    restart: always
+    ports:
+      - "5540:5540"
+    networks:
+      - data-search-network
+    volumes:
+      - ./data/redisinsight:/db
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    ports:
+      - 8040:8080
+    restart: always
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka-cluster-kafka-item-1-1:29092,kafka-cluster-kafka-item-2-1:29093
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+    networks:
+      - data-search-network
+
+networks:
+  data-search-network:
+    name: data-search-network
+    driver: bridge
+
