@@ -2,7 +2,7 @@ version: "3.9"
 services:
 
   setting-service:
-    image: qr/setting-service:0.0.1-SNAPSHOT
+    image: fort163/qr-setting-service:0.0.1-SNAPSHOT
     environment:
       - GIT_USER=${GIT_USER}
       - GIT_PASSWORD=${GIT_PASSWORD}
@@ -14,7 +14,7 @@ services:
     restart: always
 
   eureka:
-    image: qr/eureka-server:0.0.1-SNAPSHOT
+    image: fort163/qr-eureka-server:0.0.1-SNAPSHOT
     environment:
       - ACTIVE_PROFILE=${PROFILE}
       - CONFIG_SERVER=${CONFIG_SERVER}
@@ -27,7 +27,7 @@ services:
       - single-service-network
 
   gateway:
-    image: qr/gatewey-service:0.0.1-SNAPSHOT
+    image: fort163/qr-gatewey-service:0.0.1-SNAPSHOT
     environment:
       - ACTIVE_PROFILE=${PROFILE}
       - CONFIG_SERVER=${CONFIG_SERVER}
