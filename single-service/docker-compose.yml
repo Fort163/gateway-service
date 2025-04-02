@@ -31,6 +31,7 @@ services:
     environment:
       - ACTIVE_PROFILE=${PROFILE}
       - CONFIG_SERVER=${CONFIG_SERVER}
+      - INSTANCE_HOSTNAME=single-service-gateway-1
     depends_on:
       - setting-service
       - eureka
