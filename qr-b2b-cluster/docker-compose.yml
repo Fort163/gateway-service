@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+
+  qr-b2b-item-1:
+    image: fort163/qr-b2b-service:0.0.1-SNAPSHOT
+    environment:
+      - ACTIVE_PROFILE=${PROFILE}
+      - CONFIG_SERVER=${CONFIG_SERVER}
+      - INSTANCE_HOSTNAME=qr-b2b-cluster-qr-b2b-item-1-1
+    ports:
+      - "8085:8085"
+    networks:
+      - qr-b2b-infrastructure
+      - kafka
+      - single-service
+
+  qr-b2b-item-2:
+    image: fort163/qr-b2b-service:0.0.1-SNAPSHOT
+    environment:
+      - ACTIVE_PROFILE=${PROFILE}
+      - CONFIG_SERVER=${CONFIG_SERVER}
+      - INSTANCE_HOSTNAME=qr-b2b-cluster-qr-b2b-item-2-1
+    ports:
+      - "8086:8086"
+    networks:
+      - qr-b2b-infrastructure
+      - kafka
+      - single-service
+
+networks:
+  single-service:
+    external: true
+    name: single-service-network
+  qr-b2b-infrastructure:
+    external: true
+    name: qr-b2b-infrastructure-network
+  kafka:
+    external: true
+    name: kafka-network

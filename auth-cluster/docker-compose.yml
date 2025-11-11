@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+
+  auth-item-1:
+    image: fort163/qr-auth-service:0.0.1-SNAPSHOT
+    environment:
+      - ACTIVE_PROFILE=${PROFILE}
+      - CONFIG_SERVER=${CONFIG_SERVER}
+      - INSTANCE_HOSTNAME=auth-cluster-auth-item-1-1
+    ports:
+      - "8090:8090"
+    networks:
+      - auth-infrastructure
+      - kafka
+      - single-service
+
+  auth-item-2:
+    image: fort163/qr-auth-service:0.0.1-SNAPSHOT
+    environment:
+      - ACTIVE_PROFILE=${PROFILE}
+      - CONFIG_SERVER=${CONFIG_SERVER}
+      - SERVER_PORT=8091
+      - INSTANCE_HOSTNAME=auth-cluster-auth-item-2-1
+    ports:
+      - "8091:8091"
+    networks:
+      - auth-infrastructure
+      - kafka
+      - single-service
+
+networks:
+  single-service:
+    external: true
+    name: single-service-network
+  auth-infrastructure:
+    external: true
+    name: auth-infrastructure-network
+  kafka:
+    external: true
+    name: kafka-network
